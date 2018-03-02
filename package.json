@@ -2,10 +2,11 @@
   "name": "tiny-carousel",
   "version": "0.5.0",
   "description": "simple light-weight easy-to-use javascript carousel",
-  "main": "index.js",
+  "main": "tiny-carousel/tiny-carousel.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "homepage": "https://github.com/JeewhanKim/tiny-carousel",
   "keywords": [
     "carousel",
     "slider",
