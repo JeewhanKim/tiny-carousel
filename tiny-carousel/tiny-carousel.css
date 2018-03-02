@@ -1,0 +1,14 @@
+body {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+section {
+  width: 100%;
+  text-align: center;
+  display: flex;
+}
+section .pillar {
+  width: 30%;
+  background-color: pink;
+}
