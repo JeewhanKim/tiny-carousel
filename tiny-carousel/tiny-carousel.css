@@ -9,10 +9,7 @@ section {
   display: flex;
   position: relative;
 }
-section .pillar {
-  /* width: 30%; */
-  /* background-color: pink; */
-}
+
 .tiny-carousel-wrapper {
   width: 100%;
   display: grid;
