@@ -41,15 +41,18 @@
 
       const rows = children.length / this.options.slidesPerPage // 8/4 => 2
       let htm = '';
+      htm += `<div class="${this.options.className}-wrapper">`
 
       for(let i=0; i<rows; i++){
-        htm += `<div class="${this.options.className}-wrapper" style="width: 100%; display:grid;">`
+        htm += `<div class="${this.options.className}-slides">`
         for(let j=i*this.options.slidesPerPage; j<((i+1) * this.options.slidesPerPage); j++) {
           htm += `${children[j].outerHTML}`
           console.log(children[j])
         }
         htm += `</div>`
       }
+
+      htm += `</div>`
       this.carousel.append(htm)
       // add each row
 

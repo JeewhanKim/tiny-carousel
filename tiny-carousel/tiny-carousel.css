@@ -12,15 +12,24 @@ section {
 
 .tiny-carousel-wrapper {
   width: 100%;
-  display: grid;
-  grid-template-columns: 25% 25% 25% 25%;
-  /* grid-gap: 30px; */
-  position: absolute;
+  display: block;
+  position: relative;
+  height: auto;
+  overflow: hidden;
 }
 
-.tiny-carousel-wrapper > * {
+.tiny-carousel-slides {
+  position: absolute;
+  display: grid;
   background-color: #444;
   color: #fff;
   border-radius: 5px;
   padding: 20px;
+
+  grid-template-columns: 25% 25% 25% 25%;
+  /* grid-gap: 30px; */
+}
+
+.tiny-carousel-wrapper > * {
+  
 }
