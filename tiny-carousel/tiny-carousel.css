@@ -7,8 +7,23 @@ section {
   width: 100%;
   text-align: center;
   display: flex;
+  position: relative;
 }
 section .pillar {
-  width: 30%;
-  background-color: pink;
+  /* width: 30%; */
+  /* background-color: pink; */
+}
+.tiny-carousel-wrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  /* grid-gap: 30px; */
+  position: absolute;
+}
+
+.tiny-carousel-wrapper > * {
+  background-color: #444;
+  color: #fff;
+  border-radius: 5px;
+  padding: 20px;
 }

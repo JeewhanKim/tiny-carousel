@@ -43,7 +43,7 @@
       let htm = '';
 
       for(let i=0; i<rows; i++){
-        htm += `<div class="${this.options.className}-wrapper" style="width: 100%;">`
+        htm += `<div class="${this.options.className}-wrapper" style="width: 100%; display:grid;">`
         for(let j=i*this.options.slidesPerPage; j<((i+1) * this.options.slidesPerPage); j++) {
           htm += `${children[j].outerHTML}`
           console.log(children[j])
