@@ -19,17 +19,16 @@ section {
 }
 
 .tiny-carousel-slides {
-  position: absolute;
-  display: grid;
-  background-color: #444;
-  color: #fff;
-  border-radius: 5px;
-  padding: 20px;
-
-  grid-template-columns: 25% 25% 25% 25%;
-  /* grid-gap: 30px; */
+  position: relative;
+  width: 1500px;
 }
-
-.tiny-carousel-wrapper > * {
-  
+.tiny-carousel-slides:before,
+.tiny-carousel-slides:after {
+  display: table;
+  content: '';
+}
+.tiny-carousel-slides > * {
+  float: left;
+  min-height: 1px;
+  color: black;
 }
