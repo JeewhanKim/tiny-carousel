@@ -11,9 +11,12 @@
       this.carousel = $(element)
       this.carouselWidth = $(element).outerWidth()
       this.slides = $(element).find('> *')
+      this.sliderWidth = 0
       this.currentChapter = 0
       this.currentPos = 0
+      this.centerPos = 0
       this.touchObject = {}
+      this.swipePosition = 0
       this.options = {
         loop: true,
         slidesPerPage: 1,
@@ -30,6 +33,8 @@
       this.swipeHandler = this.swipeHandler.bind(this)
       this.swipeBegin = this.swipeBegin.bind(this)
       this.swipeMove = this.swipeMove.bind(this)
+      this.swipeEnd = this.swipeEnd.bind(this)
+      this.positionUpdate = this.positionUpdate.bind(this)
     }
     set setOptions(options) {
       Object.assign(this.options, eval(`(${options})`))
@@ -63,19 +68,18 @@
       this.lazyLoad(true)
     }
     repositioning(chapter) {
-      let sliderWidth = 0
       let pillarWidth = 0
       this.carousel.find(`.${this.options.className}-slides > *`).each((i, pillar) => {
-        sliderWidth += $(pillar).width()
+        this.sliderWidth += $(pillar).width()
         $(pillar).css('width', $(pillar).width())
         pillarWidth = $(pillar).width()
       })
-      let centerPos = -(sliderWidth/2) + ( this.carousel.find(`.${this.options.className}-wrapper`).outerWidth() - pillarWidth)/2
+      this.centerPos = -(this.sliderWidth/2) + ( this.carousel.find(`.${this.options.className}-wrapper`).outerWidth() - pillarWidth)/2
       this.carousel.find(`.${this.options.className}-slides`).css({
-        'width': sliderWidth + 'px',
-        'transform': `translate3d(${centerPos}px, 0, 0)`
+        'width': this.sliderWidth + 'px',
+        'transform': `translate3d(${this.centerPos}px, 0, 0)`
       })
-      this.currentPos = centerPos
+      this.currentPos = this.centerPos
     }
     swipeHandler(event) {
       if (this.options.draggable === false && event.type.indexOf('mouse') !== -1) {
@@ -91,7 +95,7 @@
             this.swipeMove(event);
             break;
         case 'end':
-            // this.swipeEnd(event);
+            this.swipeEnd(event);
             break;
       }
 
@@ -117,13 +121,23 @@
       this.touchObject.curY = touches !== undefined ? touches[0].pageY : event.clientY;
       this.touchObject.swipeLength = Math.round(Math.sqrt(Math.pow(this.touchObject.curX - this.touchObject.startX, 2)))
       const orientationLeft = this.touchObject.curX - this.touchObject.startX > 0 ? false: true
+      this.swipePosition = this.currentPos + (orientationLeft ? -this.touchObject.swipeLength : this.touchObject.swipeLength)
+      this.positionUpdate(this.swipePosition)
 
-      const swipeDistance = this.currentPos + (orientationLeft ? -this.touchObject.swipeLength : this.touchObject.swipeLength)
-
+    }
+    positionUpdate(pos) {
       this.carousel.find(`.${this.options.className}-slides`).css({
-        'transform': `translate3d(${swipeDistance}px, 0, 0)`
+        'transform': `translate3d(${pos}px, 0, 0)`
       })
-
+    }
+    swipeEnd(event) {
+      if(Math.abs(this.swipePosition) < $(win).width()) {
+        const newPosition = this.centerPos - (Math.abs(this.swipePosition))
+        this.positionUpdate(newPosition)
+      } else if(Math.abs(this.swipePosition) > (this.sliderWidth - $(win).width()*2 )) {
+        const newPosition = this.centerPos + (Math.abs(this.swipePosition))
+        this.positionUpdate(-newPosition)
+      }
     }
     swipeEvents() {
       const wrapper = this.carousel.find(`.${this.options.className}-wrapper`)
@@ -142,13 +156,6 @@
       }, this.swipeHandler);
 
     }
-    
-    animation() {
-
-    }
-    resizing() {
-      
-    }
     lazyLoad(visible) {
       return (this.options.lazyload) ? this.carousel.css('opacity', visible ? 1:0) : true
     }
@@ -160,10 +167,7 @@
     const carousel = new Carousel(elm)
     carousel.setOptions = $(elm).attr('data-tiny-carousel')
     carousel.init()
-    // console.log(carousel.getOptions)
   }
-
-  // parse Carousels
   carousels.map((i, elm) => { initCarousel(elm) })
 
 })(window, document, jQuery)
